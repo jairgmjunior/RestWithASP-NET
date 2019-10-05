@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RestWithASPNET.Services;
+using RestWithASPNET.Services.Implementation;
 
 namespace RestWithASPNET
 {
@@ -23,6 +25,8 @@ namespace RestWithASPNET
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IPersonService, PersonService>();
+
             services.AddMvc();
         }
 
