@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RestWithASPNET.Models;
 using RestWithASPNET.Services.Implementation;
 
 namespace RestWithASPNET.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [ApiVersion("1")]
+    [Route("api/[controller]/v{version:apiVersion}")]
     public class PersonsController : Controller
     {
         private readonly IPersonService _personService;
@@ -50,7 +46,9 @@ namespace RestWithASPNET.Controllers
         public IActionResult Put( [FromBody]Person person)
         {
             if (person == null) return BadRequest();
-            return new ObjectResult(_personService.Update(person));
+            var p = _personService.Update(person);
+            if (p == null) return NoContent();
+            return new ObjectResult(p);
         }
         
         // DELETE: api/ApiWithActions/5
